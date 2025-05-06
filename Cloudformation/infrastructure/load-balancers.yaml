@@ -37,9 +37,63 @@ Resources:
           Value: !Ref 'AWS::StackName'
         - Key: CloudFormationStackId
           Value: !Ref 'AWS::StackId'
-      Certificate: '{{resolve:secretsmanager:sslcertificate-easyerp.awsdeepdivetraining.com:SecretString:cert}}'
-      PrivateKey: '{{resolve:secretsmanager:sslcertificate-easyerp.awsdeepdivetraining.com:SecretString:privkey}}'
-      CertificateChain: '{{resolve:secretsmanager:sslcertificate-easyerp.awsdeepdivetraining.com:SecretString:chain}}'
+      Certificate: |
+        -----BEGIN CERTIFICATE-----
+        MIIDzTCCA1OgAwIBAgISBsvUG+biQvBpzYAaeqameyqIMAoGCCqGSM49BAMDMDIx
+        CzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MQswCQYDVQQDEwJF
+        NTAeFw0yNTA1MDYxODMwMzhaFw0yNTA4MDQxODMwMzdaMCoxKDAmBgNVBAMTH2Vh
+        c3llcnAuYXdzZGVlcGRpdmV0cmFpbmluZy5jb20wWTATBgcqhkjOPQIBBggqhkjO
+        PQMBBwNCAATsO4xOIr90fZsqrig+3vkbcaglrR9iZU+BLpOziDSJKNTre0voXqUk
+        DNAke5xD39wqkKHVIINtl5xfMlGrSIR+o4ICTzCCAkswDgYDVR0PAQH/BAQDAgeA
+        MB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMBAf8EAjAAMB0G
+        A1UdDgQWBBTETeyCAEWgkR39wNhmq3j/IGzvYzAfBgNVHSMEGDAWgBSfK1/PPCFP
+        nQS37SssxMZwi9LXDTBVBggrBgEFBQcBAQRJMEcwIQYIKwYBBQUHMAGGFWh0dHA6
+        Ly9lNS5vLmxlbmNyLm9yZzAiBggrBgEFBQcwAoYWaHR0cDovL2U1LmkubGVuY3Iu
+        b3JnLzAqBgNVHREEIzAhgh9lYXN5ZXJwLmF3c2RlZXBkaXZldHJhaW5pbmcuY29t
+        MBMGA1UdIAQMMAowCAYGZ4EMAQIBMCwGA1UdHwQlMCMwIaAfoB2GG2h0dHA6Ly9l
+        NS5jLmxlbmNyLm9yZy85LmNybDCCAQQGCisGAQQB1nkCBAIEgfUEgfIA8AB2AKRC
+        xQZJYGFUjw/U6pz7ei0mRU2HqX8v30VZ9idPOoRUAAABlqcSyQcAAAQDAEcwRQIg
+        dsGXdpMZ4Fw+L6mD6HAp6Zln0iZN/aZxItsSN3s2fYoCIQD8TLYa4Ay34/mR80r1
+        djkvdUXNZ8PqpwhFwwtuwMpOFQB2AK8YGijWjKPgqYpMnGerCfi7vCK6rryxOKOh
+        ndP5tgMNAAABlqcSy/cAAAQDAEcwRQIgL5WqhHECG03kIZW10YCp5RigHmQvHtdp
+        v7+eMf0OT5kCIQDr9MoChXX1jsvfC6bfbKrEgqKklA5w3EXELYbSqIFfejAKBggq
+        hkjOPQQDAwNoADBlAjBWuDrbB6B2ECvLS/ZpKkYGdsl3AhSP7azaGJjpAyDKupsC
+        Xjz5MZU6N1cWffoYcfgCMQC47AY2sEvhg9W+x40UsF5VpioboBy5jXcR1xdc3PSw
+        8hVtu4teX1Q1i0rzPSs7mZ4=
+        -----END CERTIFICATE-----
+      PrivateKey: |
+        -----BEGIN PRIVATE KEY-----
+        MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgwpGkosdUpKF6VKO9
+        vfoDVZO/gUqSkqZxPHPI9iLzf+ShRANCAATsO4xOIr90fZsqrig+3vkbcaglrR9i
+        ZU+BLpOziDSJKNTre0voXqUkDNAke5xD39wqkKHVIINtl5xfMlGrSIR+
+        -----END PRIVATE KEY-----      
+      CertificateChain: |
+        -----BEGIN CERTIFICATE-----
+        MIIEVzCCAj+gAwIBAgIRAIOPbGPOsTmMYgZigxXJ/d4wDQYJKoZIhvcNAQELBQAw
+        TzELMAkGA1UEBhMCVVMxKTAnBgNVBAoTIEludGVybmV0IFNlY3VyaXR5IFJlc2Vh
+        cmNoIEdyb3VwMRUwEwYDVQQDEwxJU1JHIFJvb3QgWDEwHhcNMjQwMzEzMDAwMDAw
+        WhcNMjcwMzEyMjM1OTU5WjAyMQswCQYDVQQGEwJVUzEWMBQGA1UEChMNTGV0J3Mg
+        RW5jcnlwdDELMAkGA1UEAxMCRTUwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAAQNCzqK
+        a2GOtu/cX1jnxkJFVKtj9mZhSAouWXW0gQI3ULc/FnncmOyhKJdyIBwsz9V8UiBO
+        VHhbhBRrwJCuhezAUUE8Wod/Bk3U/mDR+mwt4X2VEIiiCFQPmRpM5uoKrNijgfgw
+        gfUwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD
+        ATASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBSfK1/PPCFPnQS37SssxMZw
+        i9LXDTAfBgNVHSMEGDAWgBR5tFnme7bl5AFzgAiIyBpY9umbbjAyBggrBgEFBQcB
+        AQQmMCQwIgYIKwYBBQUHMAKGFmh0dHA6Ly94MS5pLmxlbmNyLm9yZy8wEwYDVR0g
+        BAwwCjAIBgZngQwBAgEwJwYDVR0fBCAwHjAcoBqgGIYWaHR0cDovL3gxLmMubGVu
+        Y3Iub3JnLzANBgkqhkiG9w0BAQsFAAOCAgEAH3KdNEVCQdqk0LKyuNImTKdRJY1C
+        2uw2SJajuhqkyGPY8C+zzsufZ+mgnhnq1A2KVQOSykOEnUbx1cy637rBAihx97r+
+        bcwbZM6sTDIaEriR/PLk6LKs9Be0uoVxgOKDcpG9svD33J+G9Lcfv1K9luDmSTgG
+        6XNFIN5vfI5gs/lMPyojEMdIzK9blcl2/1vKxO8WGCcjvsQ1nJ/Pwt8LQZBfOFyV
+        XP8ubAp/au3dc4EKWG9MO5zcx1qT9+NXRGdVWxGvmBFRAajciMfXME1ZuGmk3/GO
+        koAM7ZkjZmleyokP1LGzmfJcUd9s7eeu1/9/eg5XlXd/55GtYjAM+C4DG5i7eaNq
+        cm2F+yxYIPt6cbbtYVNJCGfHWqHEQ4FYStUyFnv8sjyqU8ypgZaNJ9aVcWSICLOI
+        E1/Qv/7oKsnZCWJ926wU6RqG1OYPGOi1zuABhLw61cuPVDT28nQS/e6z95cJXq0e
+        K1BcaJ6fJZsmbjRgD5p3mvEf5vdQM7MCEvU0tHbsx2I5mHHJoABHb8KVBgWp/lcX
+        GWiWaeOyB7RP+OfDtvi2OsapxXiV7vNVs7fMlrRjY1joKaqmmycnBvAq14AEbtyL
+        sVfOS66B8apkeFX2NY4XPEYV4ZSCe8VHPrdrERk2wILG3T/EGmSIkCYVUMSnjmJd
+        VQD9F6Na/+zmXCc=
+        -----END CERTIFICATE-----     
 
   AcmCertificateImportLambdaFunc:
     Type: AWS::Lambda::Function
