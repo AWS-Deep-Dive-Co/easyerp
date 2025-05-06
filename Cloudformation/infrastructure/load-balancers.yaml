@@ -27,7 +27,7 @@ Resources:
   ServerExampleComAcmCertificateImport:
     Type: Custom::AcmCertificateImport
     Properties:
-      ServiceToken: !Sub '${AcmCertificateImportLambdaFunction.Arn}'
+      ServiceToken: !Sub '${AcmCertificateImportLambdaFunc.Arn}'
       # only used for updating existing certificates
       # CertificateArn: !Sub 'arn:${AWS::Partition}:acm:${AWS::Region}:${AWS::AccountId}:certificate/${CertificateId}'
       Tags:
@@ -41,7 +41,7 @@ Resources:
       PrivateKey: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:privkey}}'
       CertificateChain: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:chain}}'
 
-  AcmCertificateImportLambdaFunction:
+  AcmCertificateImportLambdaFunc:
     Type: AWS::Lambda::Function
     Properties:
       Role: !Sub '${AcmCertificateImportLambdaExecutionRole.Arn}'
