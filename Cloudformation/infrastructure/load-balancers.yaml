@@ -37,12 +37,9 @@ Resources:
           Value: !Ref 'AWS::StackName'
         - Key: CloudFormationStackId
           Value: !Ref 'AWS::StackId'
-      Certificate: |
-        !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:cert}}'
-      PrivateKey: |
-        !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:privkey}}'
-      CertificateChain: |
-        !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:chain}}'
+      Certificate: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:cert}}'
+      PrivateKey: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:privkey}}'
+      CertificateChain: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:chain}}'
 
   AcmCertificateImportLambdaFunction:
     Type: AWS::Lambda::Function
