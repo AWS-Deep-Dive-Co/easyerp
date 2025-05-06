@@ -37,9 +37,9 @@ Resources:
           Value: !Ref 'AWS::StackName'
         - Key: CloudFormationStackId
           Value: !Ref 'AWS::StackId'
-      Certificate: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:cert}}'
-      PrivateKey: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:privkey}}'
-      CertificateChain: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:chain}}'
+      Certificate: '{{resolve:secretsmanager:sslcertificate-easyerp.awsdeepdivetraining.com:SecretString:cert}}'
+      PrivateKey: '{{resolve:secretsmanager:sslcertificate-easyerp.awsdeepdivetraining.com:SecretString:privkey}}'
+      CertificateChain: '{{resolve:secretsmanager:sslcertificate-easyerp.awsdeepdivetraining.com:SecretString:chain}}'
 
   AcmCertificateImportLambdaFunc:
     Type: AWS::Lambda::Function
