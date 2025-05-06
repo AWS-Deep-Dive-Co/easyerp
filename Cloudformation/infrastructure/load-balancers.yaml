@@ -24,6 +24,85 @@ Parameters:
     Type: String
 
 Resources:
+  ServerExampleComAcmCertificateImport:
+    Type: Custom::AcmCertificateImport
+    Properties:
+      ServiceToken: !Sub '${AcmCertificateImportLambdaFunction.Arn}'
+      # only used for updating existing certificates
+      # CertificateArn: !Sub 'arn:${AWS::Partition}:acm:${AWS::Region}:${AWS::AccountId}:certificate/${CertificateId}'
+      Tags:
+        - Key: Name
+          Value: server.example.com
+        - Key: CloudFormationStackName
+          Value: !Ref 'AWS::StackName'
+        - Key: CloudFormationStackId
+          Value: !Ref 'AWS::StackId'
+      Certificate: |
+        !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:cert}}'
+      PrivateKey: |
+        !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:privkey}}'
+      CertificateChain: |
+        !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:chain}}'
+        
+  AcmCertificateImportLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: !Sub '${AcmCertificateImportLambdaExecutionRole.Arn}'
+      Handler: index.handler
+      Timeout: 5
+      Runtime: python3.7
+      Code:
+        ZipFile: !Sub |
+          import boto3
+          import cfnresponse
+          def handler(event, context):
+            try:
+              print(event)
+              rp = event["ResourceProperties"]
+              # required args
+              import_certificate_kwargs = {
+                'Certificate': rp['Certificate'],
+                'PrivateKey': rp['PrivateKey'],
+              }
+              # optional args
+              if rp.get('CertificateArn'):
+                import_certificate_kwargs['CertificateArn'] = rp['CertificateArn']
+              if rp.get('CertificateChain'):
+                import_certificate_kwargs['CertificateChain'] = rp['CertificateChain']
+              if rp.get('Tags'):
+                import_certificate_kwargs['Tags'] = rp['Tags']
+              region = rp.get('Region', '${AWS::Region}')
+              # import certificate
+              acm = boto3.client('acm', region_name=region)
+              response = acm.import_certificate(**import_certificate_kwargs)
+              print('ACM ImportCertificate API response:', response)
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {"CertificateArn": response['CertificateArn']})
+            except Exception as e:
+              print('Error:', repr(e))
+              cfnresponse.send(event, context, cfnresponse.FAILED, {"Message": f"Exception during processing: {repr(e)}"})
+  AcmCertificateImportLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: ['sts:AssumeRole']
+      ManagedPolicyArns: [!Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole']
+      Policies:
+        - PolicyName: main
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: Acm
+                Effect: Allow
+                Action:
+                  - 'acm:AddTagsToCertificate'
+                  - 'acm:ImportCertificate'
+                Resource: '*'
+
   LoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -58,7 +137,7 @@ Resources:
       Port: 443
       Protocol: HTTPS
       Certificates:
-        - CertificateArn: !Ref ImportedCertificate
+        - CertificateArn: !GetAtt ServerExampleComAcmCertificateImport.CertificateArn
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref DefaultTargetGroup
