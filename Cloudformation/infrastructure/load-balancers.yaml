@@ -43,14 +43,14 @@ Resources:
         !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:privkey}}'
       CertificateChain: |
         !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:chain}}'
-        
+
   AcmCertificateImportLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
       Role: !Sub '${AcmCertificateImportLambdaExecutionRole.Arn}'
       Handler: index.handler
       Timeout: 5
-      Runtime: python3.7
+      Runtime: python3.12
       Code:
         ZipFile: !Sub |
           import boto3
@@ -142,12 +142,12 @@ Resources:
         - Type: forward
           TargetGroupArn: !Ref DefaultTargetGroup
 
-  ImportedCertificate:
-    Type: AWS::CertificateManager::Certificate
-    Properties:
-      Certificate: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:cert}}'
-      PrivateKey: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:privkey}}'
-      CertificateChain: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:chain}}'
+  # ImportedCertificate:
+  #   Type: AWS::CertificateManager::Certificate
+  #   Properties:
+  #     Certificate: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:cert}}'
+  #     PrivateKey: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:privkey}}'
+  #     CertificateChain: !Sub '{{resolve:secretsmanager:${CertificateSecretName}:SecretString:chain}}'
 
   # We define a default target group here, as this is a mandatory Parameters
   # when creating an Application Load Balancer Listener. This is not used, instead
